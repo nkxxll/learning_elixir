@@ -17,7 +17,11 @@ defmodule LearningElixir do
   end
 
   def start(_type, _args) do
-    IO.puts("Hello from LearningElixir!")
+    Mcp.start_mcp()
     {:ok, self()}
+  end
+
+  def main(_args) do
+    :noop
   end
 end
