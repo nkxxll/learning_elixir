@@ -6,16 +6,39 @@ defmodule Mcp do
 
   def handle_mcp(%{
         "id" => id,
-        "params" =>
-          %{
-            "clientInfo" => clientInfo
-          } = params,
-        "method" => method
-      })
-      when method === "initialize" do
-    Logger.info("id #{Integer.to_string(id)}")
-    Logger.info("clientInfo #{inspect(clientInfo)}")
-    Logger.info("params #{inspect(params)}")
+        "method" => "tools/list"
+      }) do
+
+  end
+
+  def handle_mcp(%{
+        "id" => id,
+        "params" => %{
+          "clientInfo" => clientInfo
+        },
+        "method" => "initialize"
+      }) do
+
+    response = %{
+      "jsonrpc" => "2.0",
+      "id" => id,
+      "result" => %{
+        "protocolVersion" => "2025-06-18",
+        "capabilities" => %{
+          "tools" => %{
+            "listChanged" => true
+          },
+          "resources" => %{}
+        },
+        "serverInfo" => %{
+          "name" => "example-server",
+          "version" => "1.0.0"
+        }
+      }
+    }
+
+    json = Jason.encode!(response)
+    IO.puts(json)
   end
 
   def handle_mcp(message) do
